@@ -1,0 +1,80 @@
+(* Simple protocol from Proverif Manual *)
+
+(* Symmetric encryption functions *)
+type key.
+fun senc(bitstring, key): bitstring.
+reduc forall m: bitstring, k: key; sdec(senc(m,k),k) = m.
+
+(* Asymmetric encryption functions *)
+type skey. (* Private Key *)
+type pkey. (* Public Key *)
+fun pk(skey): pkey. (* pk(skey) is the pkey bound to skey *)
+fun aenc(bitstring, pkey): bitstring.
+reduc forall m: bitstring, k: skey; adec(aenc(m, pk(k)), k) = m.
+
+(* Digital Signature *)
+type sskey. (* Private signing key *)
+type spkey. (* Public signing key *)
+fun spk(sskey): spkey.
+fun sign(bitstring, sskey): bitstring.
+reduc forall m: bitstring, k: sskey; getmess(sign(m,k)) = m.
+reduc forall m: bitstring, k: sskey; checksign(sign(m,k), spk(k)) = m.
+
+free c:channel.
+
+free s:bitstring [private].
+query attacker(s).
+
+event acceptsClient(key).
+event acceptsServer(key, pkey).
+event termClient(key, pkey).
+event termServer(key).
+
+(* If A believes to have terminated a session, then the server has to have accepted*)
+query x:key, y:pkey; event(termClient(x,y)) ==> event(acceptsServer(x,y)).
+query x:key; inj-event(termServer(x)) ==> inj-event(acceptsClient(x)).
+
+(* A has a keypair and B's public key *)
+let clientA(pkA:pkey, skA:skey, pkB: spkey) =
+    (* A sends his public key *)
+    out(c,pkA);
+    (* A receives x = aenc(sign((pkB, k), skB), pkA) 
+       which is the pair (B's public key, generate key k) signed
+       by B, and encrypted with A key
+       NOTE: Why include the public key in the pair? *)
+    in(c, x:bitstring);
+    (* Decrypts the message *)
+    let y = adec(x, skA) in
+    (* Checks the public key and the signature *)
+    let (=pkB, k:key) = checksign(y,pkB) in
+    (* A believes that a session was started with key k *)
+    event acceptsClient(k);
+    (* Sends s encrypted by the key k *)
+    out (c, senc(s,k));
+    (* A believes that she has terminated a session *)
+    event termClient(k, pkA).
+
+let serverB(pkB:spkey, skB:sskey, pkA: pkey) =
+    (* The servers received the request with X public key *)
+    in(c, pkX:pkey);
+    (* Generates a new key *)
+    new k:key;
+    (* Servers started a session with pkX *)
+    if pkX = pkA then event acceptsServer(k, pkX);
+    (* Sends the key signed and encrypted to X *)
+    out(c, aenc(sign((pkB,k),skB),pkX));
+    (* Receives the message, which is expected to be s encrypted by k *)
+    in (c,x:bitstring);
+    (* Decrypts *)
+    let z = sdec(x,k) in
+    if pkX = pkA then event termServer(k).
+
+process
+    (* Creating A and B private keys *)
+    new skA: skey;
+    new skB: sskey;
+    (* Sending public keys in c, as they are public *)
+    let pkA = pk(skA) in out(c, pkA);
+    let pkB = spk(skB) in out(c, pkB);
+    (* Starting the processes *)
+    ( (!clientA(pkA, skA, pkB)) | (!serverB(pkB, skB, pkA)) )
