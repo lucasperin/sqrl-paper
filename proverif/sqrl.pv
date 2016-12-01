@@ -1,0 +1,59 @@
+(* SQRL *)
+
+(* Symmetric encryption functions *)
+type key.
+fun senc(bitstring, key): bitstring.
+reduc forall m: bitstring, k: key; sdec(senc(m,k),k) = m.
+
+(* Asymmetric encryption functions *)
+type skey. (* Private Key *)
+type pkey. (* Public Key *)
+fun pk(skey): pkey. (* pk(skey) is the pkey bound to skey *)
+fun aenc(bitstring, pkey): bitstring.
+reduc forall m: bitstring, k: skey; adec(aenc(m, pk(k)), k) = m.
+
+(* Digital Signature *)
+type sskey. (* Private signing key *)
+type spkey. (* Public signing key *)
+fun spk(sskey): spkey.
+fun sign(bitstring, sskey): bitstring.
+reduc forall m: bitstring, k: sskey; getmess(sign(m,k)) = m.
+reduc forall m: bitstring, k: sskey; checksign(sign(m,k), spk(k)) = m.
+
+(* user/pass *)
+type credential.
+(* cookie *)
+type cookie.
+
+free cVisualCode:channel [private].
+free web:channel [private].
+
+event acceptsServer(credential, cookie).
+event termClient(cookie).
+
+query cr: credential, co: cookie; inj-event(termClient(co)) ==> inj-event(acceptsServer(cr, co)).
+
+let website(usercred: credential) =
+    (* The website received the user credentials *)
+    in(web, cred:credential);
+    (* Generates a new key *)
+    new k:cookie;
+    (* Servers started a session with usercred *)
+    if usercred = cred then event acceptsServer(cred, k);
+    (* Sends cookie to browser (hopefully) *)
+    out(web, k).
+
+let scanner(usercred: credential) =
+    in(cVisualCode, browserNonce:bitstring);
+    out(web, usercred).
+
+let browser() =
+    in(web, browserNonce:bitstring);
+    out(cVisualCode, browserNonce);
+    out(web, browserNonce);
+    in(web, k: cookie).
+
+process
+    (* Creating A and B private keys *)
+    new cred: credential;
+    ((!scanner(cred)) | (!browser()) | (!website(cred)) )
