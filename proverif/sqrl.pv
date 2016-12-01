@@ -20,13 +20,21 @@ fun sign(bitstring, sskey): bitstring.
 reduc forall m: bitstring, k: sskey; getmess(sign(m,k)) = m.
 reduc forall m: bitstring, k: sskey; checksign(sign(m,k), spk(k)) = m.
 
+
 (* user/pass *)
 type credential.
 (* cookie *)
 type cookie.
+fun gencookie(credential, bitstring): cookie.
 
+reduc forall c: credential, m: bitstring; getsecret(gencookie(c, m)) = m.
+
+free theCookie:cookie [private].
 free cVisualCode:channel [private].
 free web:channel [private].
+free s:bitstring [private].
+
+query attacker(s).
 
 event acceptsServer(credential, cookie).
 event termClient(cookie).
@@ -36,8 +44,7 @@ query cr: credential, co: cookie; inj-event(termClient(co)) ==> inj-event(accept
 let website(usercred: credential) =
     (* The website received the user credentials *)
     in(web, cred:credential);
-    (* Generates a new key *)
-    new k:cookie;
+    let k = gencookie(cred, s) in
     (* Servers started a session with usercred *)
     if usercred = cred then event acceptsServer(cred, k);
     (* Sends cookie to browser (hopefully) *)
