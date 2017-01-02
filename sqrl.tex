@@ -27,9 +27,9 @@
 	Authentication protocols play an important role in modern internet
 	usability. Most social network providers already have implemented
 	some sort of authentication method to make it easy for users to connect
-	to different services using the same account and credentials. Facebook \todo{Mencionar Oauth2, etc?}
+	to different services using the same account and credentials. Facebook \todo{Mention Oauth2, etc?}
 	and google are fine examples of this. However, we know that the good and 
-	old password is no longer reliable and has poor usability. \todo{Referencias}
+	old password is no longer reliable and has poor usability. \todo{Refs!!}
 	Furthermore, most services on the web still use pass phrases for authentication,
 	since this has been the main method used in previous decades. Hence,
 	a common aproach to provide more security to personal accounts has 
@@ -40,6 +40,38 @@
 	where the user can still use his passwords and be prompted for an
 	OTP optionally.
 
-	
+	Numerous authentication protocols have been proposed in the past
+	decade with the goal of replacing pass phrases with something that
+	is actually secure and reliable for authentication providers. One
+	good example is the Pico project \todo{ref}, with the main goal of
+	completely removing passwords. Other examples of known protocols are ?, ? ?. \todo{enumerate and cite} 
+	However, we have yet to see the adoption of one of these methods
+	by a popular authentication provider to lead on its use across the
+	Internet. 
+
+	In this paper, we analyse the SQRL protocol \todo{cite}. This protocol
+	has drawed attention since its publication due to its simplicity. However,
+	simple does not mean secure. In (?\todo{cite relay attack paper}) the authors
+	describe how to use relay attacks to break through the SQRL authentication
+	protocol. The attack, however, can be used with other authentication
+	protocols that use images for authentication, such as Pico, ? and ?. \todo{enumerate}.
+	Our goal is to use ProVerif, a tool for formal verification of cryptgraphic
+	protocols, to demonstrate the SQRL protocol's vulnerability to relay attacks.
+	Additionally, we use the same tool to verify a modification to this protocol 
+	(proposed by the same author that describe the attack). \todo{conclude something}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \end{document}
