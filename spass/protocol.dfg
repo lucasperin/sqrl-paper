@@ -1,0 +1,120 @@
+
+begin_problem(neumanstub).
+
+list_of_descriptions.
+name({*Neuman-Stubblebine*}).
+author({*Claudio Dettoni*}).
+status(unsatisfiable).
+description({**}).
+end_of_list.
+ 
+list_of_symbols.
+functions[(quadr, 4), (kt,1), (encr,2), (triple,3), (tb, 1), (nb,1), (bt,0), (a,0), (b,0), (sent, 3), (pair, 2), (na, 0), (at, 0), (t,0), (key, 2)].
+predicates[(Nonce, 1), (Ik, 1), (Im, 1), (Tk, 1), (Sb, 1), (Bf,1), (Bk,1), (Sa, 1), (Ak,1), (M, 1), (P, 1), (Human,1),(Mortal,1)].
+end_of_list.
+ 
+list_of_formulae(axioms).
+ 
+formula(Ak(key(at,t)), 1).
+formula(and(
+	M(sent(a,b,pair(a,na))),
+	Sa(pair(b, na))
+	)
+, 2).
+formula(P(a), 3).
+
+formula(Bk(key(bt,t)), 4).
+
+formula(P(b), 5).
+
+formula(Bf(na), 6).
+
+formula(forall([xa, xna], 
+	implies(
+		and(M(sent(xa,b,pair(xa,xna))), Bf(xna)),
+		and(Sb(pair(xa,xna)), M(sent(b,t,triple(b,nb(xna),encr(triple(xa,xna,tb(xna)),bt)))))
+	))
+, 7).
+
+formula(and(
+	Tk(key(at,a)),
+	Tk(key(bt,b))
+	)
+, 8).
+
+formula(P(t), 9).
+
+formula(forall([xb, xnb, xa, xna, xbet, xbt, xat, xk],
+	implies(
+		and(
+			M(sent(xb,t,triple(xb,xnb,encr(triple(xa,xna,xbet), xbt)))),
+			Tk(key(xbt,xb)),
+			Tk(key(xat,xa)),
+			Nonce(xna)
+		),
+		and(
+			M(sent(t,xa,triple(encr(quadr(xb,xna,kt(xna), xbet), xat), encr(triple(xa,kt(xna), xbet), xbt), xnb)))
+		)
+	))
+, 10).
+
+formula(Nonce(na), 23).
+formula(forall([x], not(Nonce(kt(x)))), 24). 
+formula(forall([x], and(Nonce(tb(x)), Nonce(nb(x)))), 25). 
+
+formula(forall([xnb, xbet, xk, xm, xb, xna],
+	implies(
+		and(
+			M(sent(t, a, triple(encr(quadr(xb,xna,xk,xbet),at), xm, xnb))),
+			Sa(pair(xb,xna))
+		),
+		and(
+			M(sent(a,xb,pair(xm, encr(xnb, xk)))),
+			Ak(key(xk, xb))
+		)
+	))
+, 11).
+
+formula(forall([xbet, xk, xnb, xa, xna],
+	implies(
+		and(
+			M(sent(xa,b,pair(encr(triple(xa,xk,tb(xna)), bt), encr(nb(xna), xk)))),
+			Sb(pair(xa,xna))
+		),
+		and(
+			Bk(key(xk,xa))
+		)
+	))
+, 12).
+
+formula(forall([xa,xb,xm], implies(M(sent(xa,xb,xm)), Im(xm)))).
+
+formula(forall([u,v], implies(Im(pair(u,v)), and(Im(u), Im(v))))).
+formula(forall([u,v,w], implies(Im(triple(u,v,w)), and(Im(u), Im(v), Im(w))))).
+formula(forall([u,v,w,z], implies(Im(quadr(u,v,w,z)), and(Im(u), Im(v), Im(w), Im(z))))).
+
+formula(forall([u,v], implies(and(Im(u), Im(v)), Im(pair(u,v))))).
+formula(forall([u,v,w], implies(and(Im(u), Im(v), Im(w)), Im(triple(u,v,w))))).
+formula(forall([u,v,w,z], implies(and(Im(u), Im(v), Im(w), Im(z)), Im(quadr(u,v,w,z))))).
+
+formula(forall([v,w], implies(
+	and(Im(v), P(w)),
+	Ik(key(v,w))
+	)
+)).
+
+formula(forall([u,v,w], implies(
+	and(Im(u), Ik(key(v,w)), P(w)),
+	Im(encr(u,v))
+	)
+)).
+ 
+end_of_list.
+ 
+list_of_formulae(conjectures).
+
+formula(exists([x], and(Ik(key(x,b)), Bk(key(x,a))))). 
+ 
+end_of_list.
+ 
+end_problem. 
