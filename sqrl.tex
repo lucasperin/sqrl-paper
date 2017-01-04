@@ -16,8 +16,8 @@
 \maketitle
 
 \begin{abstract}
-	In this paper we give a full description of the SQRL authentication
-	protocol and an analysys of known vulnerabilities. We run an 
+	In this paper we give a simple description of the SQRL authentication
+	protocol and an analysys of a known vulnerability. We run an 
 	experiment for formal verification of the protocul using ProVerif.
 	Furthermore, we analyse a modified version of SQRL proposed to fix
 	this vulnerability.
@@ -27,7 +27,7 @@
 	Authentication protocols play an important role in modern internet
 	usability. Most social network providers already have implemented
 	some sort of authentication method to make it easy for users to connect
-	to different services using the same account and credentials. Facebook \todo{Mention Oauth2, etc?}
+	to different services using the same account and credentials. Facebook \todo{Mention Oauth2a, Single Sign On}
 	and google are fine examples of this. However, we know that the good and 
 	old password is no longer reliable and has poor usability. \todo{Refs!!}
 	Furthermore, most services on the web still use pass phrases for authentication,
@@ -46,32 +46,101 @@
 	good example is the Pico project \todo{ref}, with the main goal of
 	completely removing passwords. Other examples of known protocols are ?, ? ?. \todo{enumerate and cite} 
 	However, we have yet to see the adoption of one of these methods
-	by a popular authentication provider to lead on its use across the
+	by a popular authentication provider to lead its use across the
 	Internet. 
 
 	In this paper, we analyse the SQRL protocol \todo{cite}. This protocol
 	has drawed attention since its publication due to its simplicity. However,
 	simple does not mean secure. In (?\todo{cite relay attack paper}) the authors
 	describe how to use relay attacks to break through the SQRL authentication
-	protocol. The attack, however, can be used with other authentication
+	protocol. This attack can also be used with other authentication
 	protocols that use images for authentication, such as Pico, ? and ?. \todo{enumerate}.
 	Our goal is to use ProVerif, a tool for formal verification of cryptgraphic
 	protocols, to demonstrate the SQRL protocol's vulnerability to relay attacks.
 	Additionally, we use the same tool to verify a modification to this protocol 
 	(proposed by the same author that describe the attack). \todo{conclude something}
 
+\section{Secure Quick Reliable Login Protocol}
+
+	The SQRL protocol, short for Secure Quick Reliable login, is an alternative method 
+	for authentication replacing user names and passwords. It uses a QR code
+	similar to other protocols, such as the Pico Project and TiQR. To log in
+	the user should have a device that is capable of storing offline cryptographic
+	keys and compute hash and cryptographic operations. In this work, we will consider that
+	this is an application runing in an mobile device, namely the SQRL App. 
+	Additionally, denote an existing authentication service provider as ASP. Now
+	we can describe the main phases of the protocol as the \emph{Setup, Identity 
+	Creation} and \emph{Authentication} phases.
+
+	The \emph{Setup} phase is a standart cryptographic setup procedure where the
+	SQRL App generates a random 256 bit master secret (MS). This secret is stored offline and 
+	is never to be shared. The following phases will always be derivated of this
+	secret, but never give it away. The \emph{Identity Creation} phase and the
+	\emph{Authentication} phase are operations that should be syncronized with
+	each ASP the user wants to authenticate to. In other words, the user will
+	have to create an identity for each ASP and each ASP is responsible 
+	for authenticating the user's credential upon log in.
+
+	The \emph{Identity Creation} phase is performed when the user wishes to create an
+	identity for a specific ASP. In this step he will create a Domain Secret (DS)
+	derivated from the service's domain address and the MS, by using an HMAC function.
+	This DS is used only for this specific ASP and no others. Furthermore, the
+	MS should remain stored safely in case the user needs to create a new DS. In 
+	this same phase, a public key (KU) and a private key (PK) are derived from the
+	DS, where the KU is then forwarded to the ASP.
+
+	\todo[inline]{Diagram with Identity creation phase}
+
+	The \emph{Authentication} phase should be the operation that users use the
+	most. After the Setup and Identity Creation, the user should have a KU and
+	a PK for each of his ASPs. To authenticate the user, the ASP generates a 
+	nonce and displays it as a QR code for the user to scan. The user scans the
+	nonce using the SQRL App and signs it with the PK. The signature is then
+	sent to the ASP from the SQRL APP using a different communication channel,
+	that is, a secure connection directly from the SQRL App and the ASP.
+	Finally, the ASP verifies the signature received from the SQRL app and 
+	approves or rejects the user's login attempt.
+
+	\todo[inline]{Diagram with Authentication phase}
 
 
+\subsection{Remarks}
+	The underlaying cryptographic protocols used to generate random numbers, derivate
+	key pairs from master secret and signature schemes are not detailed in this work.
+	These details are publicly availabe in (REF) and should not
+	affect the attack we analyse here. A more extensive analysis on the security
+	of SQRL, by taking these cryptographic algorithms into account, can be found
+	in (REF) as well as in discussion groups in the \emph{stack exchange} website.
+	\todo[inline]{Update references}
 
+\section{Similar Protocols}
+\todo[inline]{OpenID, Pico, TiQR}
 
+\section[Relay attack to visual code authentication schemes]{Relay attack to visual code \\
+authentication schemes}
+	The relay attack, as describe by the authors in (REF), is not a specific
+	attackto the SQRL protocol, but rather to a family of protocol based on
+	visual codes. Let us consider then a generic protocol that is compatible
+	with the SQRL Authentication phase and other protocols in the same family.
 
+	\todo[inline]{Diagram with the protocol from relay attack paper}
 
+	\todo[inline]{Continue}
 
+	\todo[inline]{Diagram with the proposed fix to the protocols}
 
+\section{Spass/ProVerif implementation}
+\todo[inline]{Implementation code and results}
 
+\section{Future Works}
+	The experiments results in this work are not original, since the attack
+	has been published and the authors are splicitly mentioned in our work.
+	However, inspired by this, we can build a tool using spass/proverif to
+	help protocol developers to detect the relay attack without too much
+	effort.
 
-
-
+\section{Final Remarks}
+\todo[inline]{Some conclusion}
 
 
 \end{document}
