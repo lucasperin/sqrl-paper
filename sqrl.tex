@@ -4,6 +4,7 @@
 \usepackage{amsmath}
 \usepackage{mathtools}
 \usepackage{tikz}
+\usepackage{rotating}
 \usetikzlibrary{matrix,shapes,arrows,positioning,chains, calc}
  
 \title{Analysys of SQRL Authentication Protocol using proverif/spass/whatever}
@@ -130,8 +131,24 @@ authentication schemes}
 	attack to the SQRL protocol, but rather to a family of protocol based on
 	visual codes. Let us consider then a generic protocol that is compatible
 	with the SQRL Authentication phase and other protocols in the same family.
+	See Figure \ref{fig:genauth}.
 
 	\input{diag2}
+	
+	In steps 1 and 2, the ASP displays a nonce and the domain address in
+	a visual code (QR code in the case of SQRL protocol). The viasual code is
+	scanned by the user or transferred in some way to an authentication device.
+	This device could be the user's browser, a desktop application or a mobile
+	application, for example. The authentication device produces a proof of
+	his credentials using the domain address and the nonce and sends it directly
+	to the ASP. Lastly, the ASP validades the proof. Most importantly, in step
+	7, the ASP validates the user's current session. That is, if the user is
+	logging into a website, the user's browser receives an authenticated session
+	from the ASP as soon as the ASP accepts the proof sent by the authentication
+	devide. The rellay attack on visual code authentication protocols based on Figure
+	\ref{fig:genauth} is only possible for this specific reason.
+
+	\input{diag3}
 
 	\todo[inline]{Diagram with the protocol from relay attack paper}
 
