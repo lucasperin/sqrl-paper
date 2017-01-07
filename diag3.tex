@@ -1,0 +1,35 @@
+\clearpage
+\begin{sidewaysfigure}[ht!]
+	\centering
+	\begin{tikzpicture}
+		\matrix (m)[matrix of nodes, column  sep=4mm,row  sep=2mm, 
+					nodes={draw=none, anchor=center,text depth=0pt} ]
+		{
+		Scanner & User & Attacker & ASP & Step\\
+		& & & Generates nonce & 1 \\
+		& & & Displays visual code & 2 \\
+		& & Relays visual code & & 3 \\
+		& scans visual code & & & 4 \\ [-2mm]
+		& and website domain & & & \\
+		Produce proof of & & & & 5 \\[-2mm]
+		authentication & & & &\\
+		Sends authentication & & & & 6\\[-2mm]
+		proof & & & & \\
+		& & & Validates proof & 7\\
+		& & & Accepts & 8\\
+		& & Receives authenticated session & & 9\\
+		};
+
+		\draw (m-1-1.south east)--(m-1-1.south west);
+		\draw (m-1-2.south east)--(m-1-2.south west);
+		\draw (m-1-3.south east)--(m-1-3.south west);
+		\draw (m-1-4.south east)--(m-1-4.south west);
+		\draw[-latex] (m-3-4.south east)--(m-3-4.south west);
+		\draw[-latex] (m-4-3.south east)--(m-4-3.south west);
+		\draw[-latex] (m-6-2.south east)--(m-6-2.south west);
+		\draw[shorten <=-1cm, shorten >=-1cm, -latex] (m-10-1.south west)--(m-10-1.south east);
+	\end{tikzpicture}
+	\caption{General visual based authentication protocol Rellay Attack}
+	\label{fig:attackAuth}
+\end{sidewaysfigure}
+\clearpage
