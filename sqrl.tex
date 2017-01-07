@@ -1,6 +1,8 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage[backgroundcolor=yellow]{todonotes}
+\usepackage{tikz}
+\usetikzlibrary{matrix,shapes,arrows,positioning,chains, calc}
  
 \title{Analysys of SQRL Authentication Protocol using proverif/spass/whatever}
 \author{Dettoni, Claudio\\
@@ -89,7 +91,6 @@
 	this same phase, a public key (KU) and a private key (PK) are derived from the
 	DS, where the KU is then forwarded to the ASP.
 
-	\todo[inline]{Diagram with Identity creation phase}
 
 	The \emph{Authentication} phase should be the operation that users use the
 	most. After the Setup and Identity Creation, the user should have a KU and
@@ -99,18 +100,23 @@
 	sent to the ASP from the SQRL APP using a different communication channel,
 	that is, a secure connection directly from the SQRL App and the ASP.
 	Finally, the ASP verifies the signature received from the SQRL app and 
-	approves or rejects the user's login attempt.
+	approves or rejects the user's login attempt. See Figure \ref{fig:sqrlauth}
 
-	\todo[inline]{Diagram with Authentication phase}
+	\input{diag1}
 
-
-\subsection{Remarks}
-	The underlaying cryptographic protocols used to generate random numbers, derivate
+\subsection{Cryptographic Algorithm Remarks}
+	The underlaying cryptographic algorithms used to generate random numbers, derivate
 	key pairs from master secret and signature schemes are not detailed in this work.
-	These details are publicly availabe in (REF) and should not
-	affect the attack we analyse here. A more extensive analysis on the security
-	of SQRL, by taking these cryptographic algorithms into account, can be found
-	in (REF) as well as in discussion groups in the \emph{stack exchange} website.
+	These are detailed and publicly availabe in the protocol's website (REF) and should not
+	affect the attack we analyse here. 
+
+\subsection{Security Remarks}
+	The SQRL protocol, when used for website authentication, relies heavily on
+	the \emph{Transport Layer Security} (TLS) cipher suite. The TLS ensures that
+	the protocol phases should be secured with integrity, privacy and authenticity
+	to prevent attacks such as the \emph{Man-in-the-middle} attack. A more extensive 
+	analysis on the security of SQRL, can be foundin (REF) as well as in discussion 
+	groups in the \emph{stack exchange} website.
 	\todo[inline]{Update references}
 
 \section{Similar Protocols}
