@@ -1,0 +1,26 @@
+\begin{figure}[ht]
+	\begin{tikzpicture}
+		\matrix (m)[matrix of nodes, column  sep=4mm,row  sep=2mm, 
+					nodes={draw=none, anchor=center,text depth=0pt} ]
+		{
+		SQRL App & User & ASP & Step\\
+		 & & Generates nonce & $1$ \\
+		 & & Displays QR code & $2$ \\
+		& scans QR code & & 3 \\[-2mm]
+		& using SQRL App & & \\
+		Signs nonce with PK & & & 4 \\
+		Sends signed nonce & & & 5\\
+		& & Validates signed nonce & 6\\
+		& & Accepts/Rejects & 7\\
+		};
+
+		\draw (m-1-1.south east)--(m-1-1.south west);
+		\draw (m-1-2.south east)--(m-1-2.south west);
+		\draw (m-1-3.south east)--(m-1-3.south west);
+		\draw[-latex] (m-3-3.south east)--(m-3-3.south west);
+		\draw[-latex] (m-5-2.south east)--(m-5-2.south west);
+		\draw[-latex] (m-7-1.south west)--(m-7-1.south east);
+	\end{tikzpicture}
+	\caption{SQRL Authentication Phase}
+	\label{fig:sqrlauth}
+\end{figure}
