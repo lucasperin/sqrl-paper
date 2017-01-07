@@ -1,6 +1,8 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage[backgroundcolor=yellow]{todonotes}
+\usepackage{amsmath}
+\usepackage{mathtools}
 \usepackage{tikz}
 \usetikzlibrary{matrix,shapes,arrows,positioning,chains, calc}
  
@@ -137,8 +139,61 @@ authentication schemes}
 
 	\todo[inline]{Diagram with the proposed fix to the protocols}
 
-\section{Spass/ProVerif implementation}
-\todo[inline]{Implementation code and results}
+\section{Spass implementation}
+\subsection{Overview of protocol verification with Spass}
+	As shown in \todo[inline]{Towards an Automatic Analysis of Security Protocols in First-Order Logic}, 
+	protocols can be interpreted using first-order logic. In this case, every message in the protocol
+	is translated to logic assertions as well as the attacker capabilities, and then try to prove that the
+	attacker cannot achieve some state that would lead to a failure.
+
+	The parties knownledge are defined as logic predicates. For example, if party \emph{a} knows the message
+	\emph{m}, then the predicate $Knows(a,m)$ is true. This same predicate could also be described, less 
+	generically, as $Aknows(m)$ for example, but this does not make a difference in logical expressiveness.
+
+	To represent the communication channel, the messages are translated to predicates meaning that they were
+	sent and implications that manipulations to the knowledge of the parties. To emulate the parties behaviour,
+	for example answering a message, the universal operator is used. The following example shows how a very simple
+	protocol would be represented using first order logic. 
+
+	$$ (i) A \rightarrow B:m  $$
+	$$ (ii) B \rightarrow A:m $$
+
+	In this simple procotol, A send a message to B that responds the same message. Using first-order logic the protocol
+	would be written as the following:
+
+	$$ sent(a,b,m) $$
+	$$ \forall xa, xm \bullet  sent(xa,b,xm) \implies Knows(b, xm) \land  sent(b, xa, xm)$$
+
+	The first assertion kick-starts the protocol, with $A$ sending the first message. The second assertion mimics $B$ 
+	behaviour when receiving some message, which is replying the same message.
+
+	To represent the attacker capabilities, one can say that the attacker can read anything in the channel,
+	
+	$$ \forall xa, xb, xm \bullet  sent(xa,xb,xm) \implies Knows(attacker, xm) $$
+
+	or the attacker can send messages to anyone
+	
+	$$ \forall x, xm \bullet  Knows(attacker, xm) \implies sent(attacker, x, xm) $$
+
+	To prove something regarding the protocol, we need to express this as a logical predicate and try to derive it from
+	the described rules. For example, in the previously described protocol, does the attacker know $m$? This is true
+	because:
+		
+	\begin{align*}
+	\shortintertext{By definition}
+	&sent(a,b,m)\\
+	&\forall xa, xb xm \bullet  sent(xa,xb,xm) \implies Knows(attacker, xm)\\
+	\shortintertext{Thus}
+	&sent(a,b,m) \implies Knows(attacker, m)\\
+	\shortintertext{By modus ponens}
+	&Knows(attacker, m)\\
+	\end{align*}
+
+	Using this simple idea of logic predicates, more sophisticated protocols can be described. After fully writing them,
+	one can try to prove more useful predicates, for example $Knows(attacker, key)$. Obviously, for complicated protocols
+	there will be many logical assertions and it will be hard to make proofs manually. That is why Spass is useful as it
+	is an automated first-order logic prover.
+	
 
 \section{Future Works}
 	The experiments results in this work are not original, since the attack
