@@ -13,10 +13,10 @@
 		& and website domain & & & \\
 		Produce proof of & & & & 5 \\[-2mm]
 		authentication & & & &\\
-		Sends authentication & & & & 6\\[-2mm]
-		proof & & & & \\
+		Sends proof & & & & 6\\
 		& & & Validates proof & 7\\
-		& & & Accepts & 8\\
+		& & & Sends authenticated & 8\\[-2mm]
+		& & & session to user's device& \\
 		& & Receives authenticated session & & 9\\
 		};
 
@@ -24,12 +24,13 @@
 		\draw (m-1-2.south east)--(m-1-2.south west);
 		\draw (m-1-3.south east)--(m-1-3.south west);
 		\draw (m-1-4.south east)--(m-1-4.south west);
-		\draw[-latex] (m-3-4.south east)--(m-3-4.south west);
-		\draw[-latex] (m-4-3.south east)--(m-4-3.south west);
-		\draw[-latex] (m-6-2.south east)--(m-6-2.south west);
-		\draw[shorten <=-1cm, shorten >=-1cm, -latex] (m-10-1.south west)--(m-10-1.south east);
+		\draw[-latex] (m-3-4.south east)--(m-4-3.north east);
+		\draw[-latex] (m-4-3.south east)--(m-5-2.north west);
+		\draw[-latex] (m-6-2.south east)--(m-7-1.north east);
+		\draw[-latex] (m-9-1.south west)--(m-10-4.north west);
+		\draw[-latex] (m-12-4.south east)--(m-13-3.north east);
 	\end{tikzpicture}
-	\caption{General visual based authentication protocol Rellay Attack}
+	\caption{General visual based authentication protocol Relay Attack}
 	\label{fig:attackAuth}
 \end{sidewaysfigure}
 \clearpage

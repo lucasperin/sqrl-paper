@@ -11,15 +11,16 @@
 		Signs nonce with PK & & & 4 \\
 		Sends signed nonce & & & 5\\
 		& & Validates signed nonce & 6\\
-		& & Accepts/Rejects & 7\\
+		& & Sends authenticated & 7\\[-2mm]
+		& & session to user's device& \\[-2mm]
 		};
 
 		\draw (m-1-1.south east)--(m-1-1.south west);
 		\draw (m-1-2.south east)--(m-1-2.south west);
 		\draw (m-1-3.south east)--(m-1-3.south west);
-		\draw[-latex] (m-3-3.south east)--(m-3-3.south west);
-		\draw[-latex] (m-5-2.south east)--(m-5-2.south west);
-		\draw[-latex] (m-7-1.south west)--(m-7-1.south east);
+		\draw[-latex] (m-3-3.south east)--(m-4-2.north east);
+		\draw[-latex] (m-5-2.south east)--(m-6-1.north east);
+		\draw[-latex] (m-7-1.south west)--(m-8-3.north west);
 	\end{tikzpicture}
 	\caption{SQRL Authentication Phase}
 	\label{fig:sqrlauth}
