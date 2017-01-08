@@ -1,0 +1,65 @@
+
+begin_problem(neumanstub).
+
+list_of_descriptions.
+name({*Neuman-Stubblebine*}).
+author({*Claudio Dettoni*}).
+status(unsatisfiable).
+description({**}).
+end_of_list.
+ 
+list_of_symbols.
+functions[
+(user,0),
+(asp,0),
+(scanner,1),
+(request,1),
+(code,1),
+(sent,3),
+(sign,2),
+(cookie,1)
+].
+predicates[
+(M, 1),
+(Knows, 2)
+].
+end_of_list.
+ 
+list_of_formulae(axioms).
+ 
+formula(M(sent(user,asp,request(user)))).
+formula(forall([xa,xreq], 
+	implies(
+		M(sent(xa,asp,xreq)),
+		M(sent(asp,xa,code(xreq)))
+	))
+).
+
+formula(forall([xa,xcode], 
+	implies(
+		M(sent(xa,user,xcode)),
+		M(sent(user,scanner(user),xcode))
+	))
+).
+
+formula(forall([xu,xcode], 
+	implies(
+		M(sent(xu,scanner(xu),xcode)),
+		M(sent(scanner(xu),asp,sign(xcode, scanner(xu))))
+	))
+).
+
+formula(forall([xscanner,xu], 
+	implies(
+		M(sent(xscanner,scanner(xu),sign(code(request(xu)), scanner(xu)))),
+		M(sent(asp,xu,cookie(xu)))
+	))
+).
+
+end_of_list.
+ 
+list_of_formulae(conjectures).
+
+end_of_list.
+ 
+end_problem. 
