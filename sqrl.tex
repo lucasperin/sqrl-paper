@@ -280,9 +280,6 @@ authentication \\ schemes}
 
 
 \section{Final Remarks}
-	Our experiment's result demonstrate that the relay attack can be detected
-	with the help of automated theorem provers. 
-	
 	It is worth noticing how the theorem prover can implicitly perform operations
 	that are essentially very similar to human reasoning. For example, in the 
 	axioms we defined that the attacker can send any message that they know to the user,
@@ -298,17 +295,15 @@ Method: General Resolution
 14	 Knows(attacker,U) -> M(sent(user,scanner(user),U))
 \end{lstlisting}
 
-	\todo[inline]{Some conclusion}
-
-
-\section{Future Works}
-	
-	Inspired by our results, we can now build a tool using spass to
+	Our experiment's result demonstrate that the relay attack can be detected
+	with the help of automated theorem provers. 
+	Inspired by this, we can now build a tool using spass to
 	help protocol developers to detect the relay attack without too much
 	effort. In addition, the same analysis can be done to detect the relay
 	attack in new authentication protocols or variations to come, such as 
 	the one in Figure \ref{fig:proposal}.
 
+\section{Appendix}
 \appendix
 
 \section{Spass code}
