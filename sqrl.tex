@@ -73,10 +73,10 @@
 \section{Secure Quick Reliable Login Protocol}
 
 	The SQRL protocol, short for Secure Quick Reliable login, is an alternative method 
-	for authentication replacing user names and passwords. It uses a QR code
-	similar to other protocols, such as the Pico Project and TiQR. To log in
+	for authentication that replaces usernames and passwords. It uses a QR code
+	similar to other protocols, such as the Pico Project and TiQR. To log in,
 	the user should have a device that is capable of storing offline cryptographic
-	keys and compute hash and cryptographic operations. In this work, we will consider that
+	keys and compute some cryptographic operations. In this work, we will consider that
 	this is an application runing in an mobile device, namely the SQRL App. 
 	Additionally, denote an existing authentication service provider as ASP. Now
 	we can describe the main phases of the protocol as the \emph{Setup, Identity 
@@ -97,8 +97,8 @@
 	derivated from the service's domain address and the MS, by using an HMAC function.
 	This DS is used only for this specific ASP and no others. Furthermore, the
 	MS should remain stored safely in case the user needs to create a new DS. In 
-	this same phase, a public key (KU) and a private key (PK) are derived from the
-	DS, where the KU is then forwarded to the ASP.
+	this same phase, an asymmetric key pair - a public key (KU) and a private key (PK) -
+	is derived from the	DS. The KU is then forwarded to the ASP.
 
 
 	The \emph{Authentication} phase should be the operation that users use the
@@ -116,7 +116,7 @@
 \subsection{Cryptographic Algorithm Remarks}
 	The underlaying cryptographic algorithms used to generate random numbers, derivate
 	key pairs from master secret and signature schemes are not detailed in this work.
-	These are detailed and publicly availabe in the protocol's website (REF) and should not
+	These are detailed and publicly availabe in the protocol's website \cite{sqrl} and should not
 	affect the attack we analyse here. 
 
 \subsection{Security Remarks}
@@ -144,7 +144,7 @@ authentication \\ schemes}
 	a visual code (QR code in the case of SQRL protocol). The viasual code is
 	scanned by the user or transferred in some way to an authentication device.
 	This device could be the user's browser, a desktop application or a mobile
-	application, for example. The authentication device produces a proof of
+	application. The authentication device produces a proof of
 	his credentials using the domain address and the nonce and sends it directly
 	to the ASP. Lastly, the ASP validades the proof. Most importantly, in Step
 	7, the ASP validates the user's current session. That is, if the user is
@@ -157,14 +157,13 @@ authentication \\ schemes}
 	\input{diag3}
 
 	The relay attack is performed when and attacker successfully prompts and
-	convinces the user to scan a visual code. By contrasting Figures \ref{fig:genauth} 
-	and \ref{fig:attackAuth}, there are minimal changes. Supose the attacker
+	convinces the user to scan a visual code. Supose and attacker
 	knows an ASP where a given user has already created an identity (phase 2
 	from SQRL protocol, for example). Then the attacker requests a code for himself 
 	from this ASP and relays his visual code in such a way that the user is 
 	convinced to scan it.
 	This can be done in a similar way to phishing attacks, by presenting fake web
-	pages or even taking over the user's computer. Once the visual code is
+	pages or even taking over the user's computer or web browser application. Once the visual code is
 	scanned by the user, the authentication device will send a proof to the ASP.
 	Lastly, the ASP recognizes and verifies the proof, however, in this case
 	the authenticated session is sent to the attacker instead. 
@@ -182,11 +181,13 @@ authentication \\ schemes}
 
 	\input{diag4}
 	
-	The modified protocol now relies in a safe communication channel between
+	The modified protocol relies in a safe communication channel between
 	the authentication device and the user's device. The nonce is now absent
 	and the authenticated session is sent to the authentication device. Thus,
 	if the attacker attempts a relay attack on this protocol, the authenticated
-	session is no longer sent to him, but to the user's device.
+	session is no longer sent to him, but to the user's device. For example,
+	if the user is logging into a website, the authentication device could
+	receive an authenticated session cookie and forward it to the user's browser.
 
 \section{Spass implementation}
 \subsection{Overview of protocol verification with Spass}
