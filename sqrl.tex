@@ -282,6 +282,21 @@ authentication \\ schemes}
 \section{Final Remarks}
 	Our experiment's result demonstrate that the relay attack can be detected
 	with the help of automated theorem provers. 
+	
+	It is worth noticing how the theorem prover can implicitly perform operations
+	that are essentially very similar to human reasoning. For example, in the 
+	axioms we defined that the attacker can send any message that they know to the user,
+	also the user will scan any message that they receive. Using those two properties,
+	the prover can automatically derive that the attacker can send any message they know
+	to the scanner, even if this was not directly defined:
+\lstset{basicstyle=\ttfamily\footnotesize,breaklines=true}
+\begin{lstlisting}[frame=single]
+Method: General Resolution
+5	 Knows(attacker,U) -> M(sent(attacker,V,U))
+7	 M(sent(U,user,V))*+ -> M(sent(user,scanner(user),V))
+##
+14	 Knows(attacker,U) -> M(sent(user,scanner(user),U))
+\end{lstlisting}
 
 	\todo[inline]{Some conclusion}
 

@@ -80,7 +80,7 @@ end_of_list.
  
 list_of_formulae(conjectures).
 
-formula(Knows(attacker,cookie(user))).
+formula(Knows(user,cookie(user))).
 
 end_of_list.
  
