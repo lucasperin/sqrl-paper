@@ -135,26 +135,50 @@ authentication schemes}
 
 	\input{diag2}
 	
-	In steps 1 and 2, the ASP displays a nonce and the domain address in
+	In Steps 1 and 2, the ASP displays a nonce and the domain address in
 	a visual code (QR code in the case of SQRL protocol). The viasual code is
 	scanned by the user or transferred in some way to an authentication device.
 	This device could be the user's browser, a desktop application or a mobile
 	application, for example. The authentication device produces a proof of
 	his credentials using the domain address and the nonce and sends it directly
-	to the ASP. Lastly, the ASP validades the proof. Most importantly, in step
+	to the ASP. Lastly, the ASP validades the proof. Most importantly, in Step
 	7, the ASP validates the user's current session. That is, if the user is
 	logging into a website, the user's browser receives an authenticated session
 	from the ASP as soon as the ASP accepts the proof sent by the authentication
 	devide. The rellay attack on visual code authentication protocols based on Figure
-	\ref{fig:genauth} is only possible for this specific reason.
+	\ref{fig:genauth} is only possible for this specific reason. In the following,
+	Figure \ref{fig:attackAuth} ilustrates the relay attack.
 
 	\input{diag3}
 
-	\todo[inline]{Diagram with the protocol from relay attack paper}
+	The relay attack is performed when and attacker successfully prompts and
+	convinces the user to scan a visual code. By contrasting Figures \ref{fig:genauth} 
+	and \ref{fig:attackAuth}, the only visual differences are step 3 and
+	9 from the later. The attacker receives a visual code for himself from
+	an ASP where the user has already created an Identiy. The attacker now
+	relays his visual code in such a way that the user is convinced to scan it.
+	This can be done in a similar way to phishing, by presenting fake web
+	pages or even taking over the user's computer. Once the visual code is
+	scanned by the user, the authentication device will send a proof to the ASP.
+	Lastly, the ASP recognizes and verifies the proof, however, in this case
+	the authenticated session is sent to the attacker instead. Different from
+	phishing attacks, the relay attack does not steal user credentials like
+	username or password. If the attack is successfull, the attacker will be
+	authenticated by the user but will have no access to the user's secrets. 
+	Hence, to attempt a new login, the attacker would have to repeat the attack
+	for the same user.
 
-	\todo[inline]{Continue}
+	From the same work where the attack is published, the authors describe
+	a possible solution to avoid it. The main idea of this proposal is to
+	remove the step where the ASP validates the user's session.
 
-	\todo[inline]{Diagram with the proposed fix to the protocols}
+	\input{diag4}
+	
+	The modified protocol now relies in a safe communication channel between
+	the authentication device and the user's device. The nonce is now absent
+	and the authenticated session is sent to the authentication device. Thus,
+	if the attacker attempts a relay attack on this protocol, the authenticated
+	session is no longer sent to him, but to the user's device.
 
 \section{Spass implementation}
 \subsection{Overview of protocol verification with Spass}
