@@ -10,6 +10,7 @@ end_of_list.
 list_of_symbols.
 functions[
 (user,0),
+(attacker,0),
 (asp,0),
 (scanner,1),
 (request,1),
@@ -26,6 +27,7 @@ end_of_list.
  
 list_of_formulae(axioms).
 
+% Any party knows any message sent to them
 formula(forall([xa,xb,xm], 
 	implies(
 		M(sent(xa,xb,xm)),
@@ -34,6 +36,7 @@ formula(forall([xa,xb,xm],
 ).
  
 formula(M(sent(user,asp,request(user)))).
+
 formula(forall([xa,xreq], 
 	implies(
 		M(sent(xa,asp,xreq)),
@@ -55,18 +58,29 @@ formula(forall([xu,xcode],
 	))
 ).
 
-formula(forall([xscanner,xu], 
+formula(forall([x, xscanneruser,xrequestuser], 
 	implies(
-		M(sent(xscanner,asp,sign(code(request(xu)), scanner(xu)))),
-		M(sent(asp,xu,cookie(xu)))
+		M(sent(x,asp,sign(code(request(xrequestuser)), scanner(xscanneruser)))),
+		M(sent(asp,xrequestuser,cookie(xscanneruser)))
 	))
 ).
+
+% The attacker can trick users to read codes that they know
+formula(forall([xcode], 
+	implies(
+		Knows(attacker, xcode),
+		M(sent(attacker, user, xcode))
+	))
+).
+
+% The attacker can access the website
+formula(M(sent(attacker,asp,request(attacker)))).
 
 end_of_list.
  
 list_of_formulae(conjectures).
 
-formula(Knows(user,cookie(user))).
+formula(Knows(attacker,cookie(user))).
 
 end_of_list.
  
