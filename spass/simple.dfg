@@ -1,8 +1,7 @@
-
-begin_problem(neumanstub).
+begin_problem(sqrl).
 
 list_of_descriptions.
-name({*Neuman-Stubblebine*}).
+name({*SQRL*}).
 author({*Claudio Dettoni*}).
 status(unsatisfiable).
 description({**}).
@@ -26,6 +25,13 @@ predicates[
 end_of_list.
  
 list_of_formulae(axioms).
+
+formula(forall([xa,xb,xm], 
+	implies(
+		M(sent(xa,xb,xm)),
+		Knows(xb, xm)
+	))
+).
  
 formula(M(sent(user,asp,request(user)))).
 formula(forall([xa,xreq], 
@@ -51,7 +57,7 @@ formula(forall([xu,xcode],
 
 formula(forall([xscanner,xu], 
 	implies(
-		M(sent(xscanner,scanner(xu),sign(code(request(xu)), scanner(xu)))),
+		M(sent(xscanner,asp,sign(code(request(xu)), scanner(xu)))),
 		M(sent(asp,xu,cookie(xu)))
 	))
 ).
@@ -59,6 +65,8 @@ formula(forall([xscanner,xu],
 end_of_list.
  
 list_of_formulae(conjectures).
+
+formula(Knows(user,cookie(user))).
 
 end_of_list.
  
