@@ -21,11 +21,11 @@
 \maketitle
 
 \begin{abstract}
-	In this paper we give a simple description of the SQRL authentication
-	protocol and an analysys of a known vulnerability. We run an 
-	experiment for formal verification of the protocul using ProVerif.
-	Furthermore, we analyse a modified version of SQRL proposed to fix
-	this vulnerability.
+	In this paper we give a simplified description of the SQRL authentication
+	protocol and a description of how the relay attack works with it. Numerous other
+	protocols that classify in the same family of visual codes are also 
+	vulnerable to this attack. We run an experiment for formal verification of 
+	this family of protocols using Spass, attempting to detect the attack.
 \end{abstract}
 
 \section{Intoduction}
@@ -125,8 +125,8 @@
 \section{Similar Protocols}
 \todo[inline]{OpenID, Pico, TiQR}
 
-\section[Relay attack to visual code authentication schemes]{Relay attack to visual code \\
-authentication schemes}
+\section[Relay attack to visual code authentication schemes]{Relay attack to visual code
+authentication \\ schemes}
 	The relay attack, as describe by the authors in (REF), is not a specific
 	attack to the SQRL protocol, but rather to a family of protocol based on
 	visual codes. Let us consider then a generic protocol that is compatible
@@ -153,15 +153,18 @@ authentication schemes}
 
 	The relay attack is performed when and attacker successfully prompts and
 	convinces the user to scan a visual code. By contrasting Figures \ref{fig:genauth} 
-	and \ref{fig:attackAuth}, the only visual differences are step 3 and
-	9 from the later. The attacker receives a visual code for himself from
-	an ASP where the user has already created an Identiy. The attacker now
-	relays his visual code in such a way that the user is convinced to scan it.
-	This can be done in a similar way to phishing, by presenting fake web
+	and \ref{fig:attackAuth}, there are minimal changes. Supose the attacker
+	knows an ASP where a given user has already created an identity (phase 2
+	from SQRL protocol, for example). Then the attacker requests a code for himself 
+	from this ASP and relays his visual code in such a way that the user is 
+	convinced to scan it.
+	This can be done in a similar way to phishing attacks, by presenting fake web
 	pages or even taking over the user's computer. Once the visual code is
 	scanned by the user, the authentication device will send a proof to the ASP.
 	Lastly, the ASP recognizes and verifies the proof, however, in this case
-	the authenticated session is sent to the attacker instead. Different from
+	the authenticated session is sent to the attacker instead. 
+
+	Different from
 	phishing attacks, the relay attack does not steal user credentials like
 	username or password. If the attack is successfull, the attacker will be
 	authenticated by the user but will have no access to the user's secrets. 
