@@ -6,6 +6,7 @@
 \usepackage{tikz}
 \usepackage{rotating}
 \usepackage{url}
+\usepackage{listings}
 
 \usetikzlibrary{matrix,shapes,arrows,positioning,chains, calc}
  
@@ -274,7 +275,7 @@ authentication \\ schemes}
 	source tool to digest the result. It is available at 
 	\url{https://github.com/dettonijr/spass-proof-parser}} 
 	the following that the user can receive a cookie for 
-	himself $knows(user,cookie(user))$. We also user it to prove a less desirable 
+	himself $knows(user,cookie(user))$. We also used it to prove a less desirable 
 	feature: $knows(attacker,cookie(user))$.
 
 
@@ -292,6 +293,18 @@ authentication \\ schemes}
 	effort. In addition, the same analysis can be done to detect the relay
 	attack in new authentication protocols or variations to come, such as 
 	the one in Figure \ref{fig:proposal}.
+
+\appendix
+
+\section{Spass code}
+\lstset{basicstyle=\ttfamily\footnotesize,breaklines=true}
+
+\lstinputlisting[frame=single]{spass/simple.dfg}
+
+\section{Proofs}
+
+\lstinputlisting[frame=single]{spass/proof-knows-user.txt}
+\lstinputlisting[frame=single]{spass/proof-knows-attacker.txt}
 
 \bibliographystyle{abbrv}
 \bibliography{ref.bib}

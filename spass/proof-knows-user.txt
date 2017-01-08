@@ -1,0 +1,98 @@
+Method: Input
+##
+1	 ~Knows(user,cookie(user))*
+---------------------------------------
+Method: Input
+##
+3	 M(sent(attacker,asp,request(attacker)))*
+---------------------------------------
+Method: Input
+##
+4	 M(sent(U,V,W))* -> Knows(V,W
+---------------------------------------
+Method: Input
+##
+5	 Knows(attacker,U) -> M(sent(attacker,V,U))
+---------------------------------------
+Method: Input
+##
+6	 M(sent(U,asp,V)) -> M(sent(asp,U,code(V)))
+---------------------------------------
+Method: Input
+##
+7	 M(sent(U,user,V))*+ -> M(sent(user,scanner(user),V))
+---------------------------------------
+Method: Input
+##
+8	 M(sent(U,scanner(U),V)) -> M(sent(scanner(U),asp,sign(V,scanner(U))))
+---------------------------------------
+Method: Input
+##
+9	 M(sent(U,asp,sign(code(request(V)),scanner(W))))* -> M(sent(asp,V,cookie(W))
+---------------------------------------
+Method: General Resolution
+5	 Knows(attacker,U) -> M(sent(attacker,V,U))
+4	 M(sent(U,V,W))* -> Knows(V,W
+##
+13	 Knows(attacker,U)*+ -> Knows(V,U)
+---------------------------------------
+Method: General Resolution
+7	 M(sent(U,user,V))*+ -> M(sent(user,scanner(user),V))
+5	 Knows(attacker,U) -> M(sent(attacker,V,U))
+##
+14	 Knows(attacker,U) -> M(sent(user,scanner(user),U))
+---------------------------------------
+Method: General Resolution
+6	 M(sent(U,asp,V)) -> M(sent(asp,U,code(V)))
+4	 M(sent(U,V,W))* -> Knows(V,W
+##
+15	 M(sent(U,asp,V))* -> Knows(U,code(V)
+---------------------------------------
+Method: General Resolution
+3	 M(sent(attacker,asp,request(attacker)))*
+15	 M(sent(U,asp,V))* -> Knows(U,code(V)
+##
+18	 Knows(attacker,code(request(attacker)))*
+---------------------------------------
+Method: General Resolution
+18	 Knows(attacker,code(request(attacker)))*
+13	 Knows(attacker,U)*+ -> Knows(V,U)
+##
+22	 Knows(U,code(request(attacker)))*
+---------------------------------------
+Method: General Resolution
+8	 M(sent(U,scanner(U),V)) -> M(sent(scanner(U),asp,sign(V,scanner(U))))
+9	 M(sent(U,asp,sign(code(request(V)),scanner(W))))* -> M(sent(asp,V,cookie(W))
+##
+28	 M(sent(U,scanner(U),code(request(V))))* -> M(sent(asp,V,cookie(U))
+---------------------------------------
+Method: General Resolution
+28	 M(sent(U,scanner(U),code(request(V))))* -> M(sent(asp,V,cookie(U))
+14	 Knows(attacker,U) -> M(sent(user,scanner(user),U))
+##
+37	 Knows(attacker,code(request(U))) -> M(sent(asp,U,cookie(user)))
+---------------------------------------
+Method: General Resolution
+37	 Knows(attacker,code(request(U))) -> M(sent(asp,U,cookie(user)))
+4	 M(sent(U,V,W))* -> Knows(V,W
+##
+48	 Knows(attacker,code(request(U)))* -> Knows(U,cookie(user)
+---------------------------------------
+Method: General Resolution
+48	 Knows(attacker,code(request(U)))* -> Knows(U,cookie(user)
+22	 Knows(U,code(request(attacker)))*
+##
+52	 Knows(attacker,cookie(user))*
+---------------------------------------
+Method: General Resolution
+13	 Knows(attacker,U)*+ -> Knows(V,U)
+52	 Knows(attacker,cookie(user))*
+##
+54	 Knows(U,cookie(user))*
+---------------------------------------
+Method: Unit Conflict
+1	 ~Knows(user,cookie(user))*
+54	 Knows(U,cookie(user))*
+##
+55	 END
+---------------------------------------
