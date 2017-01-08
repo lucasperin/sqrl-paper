@@ -238,25 +238,38 @@ authentication \\ schemes}
 	there will be many logical assertions and it might be unfeasible to make proofs manually. That is why Spass is useful as it
 	is an automated first-order logic prover.
 
-\subsection{Visual code scheme in first-order logic}
-	Based on the protocol shown in figure 2, we will then write the protocol in the form explained above using first-order logic.
-	This should allow us to prove various properties regarding the protocol:
+\subsection{Visual code scheme implemented in Spass}
+	Based on the protocol shown in figure 2, we will then write the protocol in the form explained above using first-order logic:
 	
 	\begin{align*}
+	\shortintertext{If any party receives some data, they know this data}
+	&\forall xa, xb, xm \bullet sent(xa,xb,xm) \implies knows(xb,xm) \\
 	\shortintertext{The user starts the protocol, requesting the web page}
 	&sent(user,asp,request(user))\\
 	\shortintertext{For any request, the ASP replies with a code that is unique to that request}
-	&\forall xa \bullet  sent(xa,asp,request(user)) \implies sent(asp, xa, code(request(user)))
+	&\forall xa,xreq\bullet  sent(xa,asp,xreq) \implies sent(asp, xa, code(xreq))
 	\shortintertext{The user, after receiving a code, sends to the scanner}
 	&\forall xa, xcode \bullet sent(xa,user,xcode) \implies sent(user, scanner(user), xcode)\\
 	\shortintertext{The scanner validates the code, and sends to the server}
 	&\forall xu, xcode \bullet sent(xu,scanner(xu),xcode) \implies sent(scanner(xu), asp, sign(xcode, scanner(xu)))\\
-	\shortintertext{The server then sends a valid cookie to the user corresponding to the signed request}
-	&\forall xscanner, xu \bullet sent(xscanner,asp,sign(code(request(xu)), scanner(xu))) \implies sent(asp, xu, cookie(xu))\\
+	\shortintertext{The server then sends a cookie corresponding to the signature, to the user who requested}
+	&\forall xusign, xureq \bullet sent(x,asp,sign(code(request(xureq)), scanner(xusign))) \implies sent(asp, xureq, cookie(xusign))\\
 	\end{align*}
-	
 
+	Also, we describe the attacker capabilities:	
 	
+	\begin{align*}
+	\shortintertext{The attacker can trick users to read arbitrary codes}
+	&\forall xu, xm \bullet knows(attacker,xm) \implies sent(attacker,xu,xm) \\
+	\shortintertext{The attacker can request pages to the ASP}
+	&sent(attacker,asp,request(attacker))\\
+	\end{align*}
+
+
+	The mentioned logic was implemented and executed on Spass. We used it to prove \footnote{The proofs produced by Spass 
+	are not very human-readable. For showing the proofs, we used an open source tool available 
+	at https://github.com/dettonijr/spass-proof-parser} the following that the user can receive a cookie for 
+	himself $knows(user,cookie(user))$. We also user it to prove a less desirable feature: $knows(attacker,cookie(user))$.
 
 \section{Future Works}
 	The experiments results in this work are not original, since the attack

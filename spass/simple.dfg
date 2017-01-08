@@ -66,10 +66,10 @@ formula(forall([x, xscanneruser,xrequestuser],
 ).
 
 % The attacker can trick users to read codes that they know
-formula(forall([xcode], 
+formula(forall([xcode, xu], 
 	implies(
 		Knows(attacker, xcode),
-		M(sent(attacker, user, xcode))
+		M(sent(attacker, xu, xcode))
 	))
 ).
 
