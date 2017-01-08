@@ -279,6 +279,10 @@ authentication \\ schemes}
 	himself $knows(user,cookie(user))$. We also used it to prove a less desirable 
 	feature: $knows(attacker,cookie(user))$.
 
+	Similarly, we implemented the version mentioned in \ref{fig:proposal}. In this case
+	the assertion $knows(user,cookie(user))$ can be proved, but $knows(attacker,cookie(user))$
+	cannot.
+
 
 \section{Final Remarks}
 	It is worth noticing how the theorem prover can implicitly perform operations
@@ -301,8 +305,7 @@ Method: General Resolution
 	Inspired by this, we can now build a tool using spass to
 	help protocol developers to detect the relay attack without too much
 	effort. In addition, the same analysis can be done to detect the relay
-	attack in new authentication protocols or variations to come, such as 
-	the one in Figure \ref{fig:proposal}.
+	attack in new authentication protocols or variations to come.
 
 \section{Appendix}
 \appendix
@@ -311,6 +314,8 @@ Method: General Resolution
 \lstset{basicstyle=\ttfamily\footnotesize,breaklines=true}
 
 \lstinputlisting[frame=single]{spass/simple.dfg}
+
+\lstinputlisting[frame=single]{spass/corrected.dfg}
 
 \section{Proofs}
 
