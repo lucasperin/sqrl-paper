@@ -199,7 +199,7 @@ authentication schemes}
 	\begin{align*}
 	\shortintertext{By definition}
 	&sent(a,b,m)\\
-	&\forall xa, xb xm \bullet  sent(xa,xb,xm) \implies Knows(attacker, xm)\\
+	&\forall xa, xb, xm \bullet  sent(xa,xb,xm) \implies Knows(attacker, xm)\\
 	\shortintertext{Thus}
 	&sent(a,b,m) \implies Knows(attacker, m)\\
 	\shortintertext{By modus ponens}
@@ -207,9 +207,28 @@ authentication schemes}
 	\end{align*}
 
 	Using this simple idea of logic predicates, more sophisticated protocols can be described. After fully writing them,
-	one can try to prove more useful predicates, for example $Knows(attacker, key)$. Obviously, for complicated protocols
-	there will be many logical assertions and it will be hard to make proofs manually. That is why Spass is useful as it
+	one can try to prove more useful predicates, for example $Knows(attacker, key)$. In the case of complicated protocols
+	there will be many logical assertions and it might be unfeasible to make proofs manually. That is why Spass is useful as it
 	is an automated first-order logic prover.
+
+\subsection{Visual code scheme in first-order logic}
+	Based on the protocol shown in figure 2, we will then write the protocol in the form explained above using first-order logic.
+	This should allow us to prove various properties regarding the protocol:
+	
+	\begin{align*}
+	\shortintertext{The user starts the protocol, requesting the web page}
+	&sent(user,asp,request(user))\\
+	\shortintertext{For any request, the ASP replies with a code that is unique to that request}
+	&\forall xa \bullet  sent(xa,asp,request(user)) \implies sent(asp, xa, code(request(user)))
+	\shortintertext{The user, after receiving a code, sends to the scanner}
+	&\forall xa, xcode \bullet sent(xa,user,xcode) \implies sent(user, scanner(user), xcode)\\
+	\shortintertext{The scanner validates the code, and sends to the server}
+	&\forall xu, xcode \bullet sent(xu,scanner(xu),xcode) \implies sent(scanner(xu), asp, sign(xcode, scanner(xu)))\\
+	\shortintertext{The server then sends a valid cookie to the user corresponding to the signed request}
+	&\forall xscanner, xu \bullet sent(xscanner,asp,sign(code(request(xu)), scanner(xu))) \implies sent(asp, xu, cookie(xu))\\
+	\end{align*}
+	
+
 	
 
 \section{Future Works}
