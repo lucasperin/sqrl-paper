@@ -32,9 +32,10 @@
 	Authentication protocols play an important role in modern internet
 	usability. Most social network providers already have implemented
 	some sort of authentication method to make it easy for users to connect
-	to different services using the same account and credentials. Facebook \todo{Mention Oauth2a, Single Sign On}
-	and google are fine examples of this. However, we know that the good and 
-	old password is no longer reliable and has poor usability. \todo{Refs!!}
+	to different services using the same account and credentials. The Single Sign On 
+	(SSO) protocols implemented by Google using OpenID \cite{openid} is a
+	fine examples of this. However, we know that the good and 
+	old password is no longer reliable and has poor usability \cite{password}.
 	Furthermore, most services on the web still use pass phrases for authentication,
 	since this has been the main method used in previous decades. Hence,
 	a common aproach to provide more security to personal accounts has 
@@ -48,22 +49,22 @@
 	Numerous authentication protocols have been proposed in the past
 	decade with the goal of replacing pass phrases with something that
 	is actually secure and reliable for authentication providers. One
-	good example is the Pico project \todo{ref}, with the main goal of
-	completely removing passwords. Other examples of known protocols are ?, ? ?. \todo{enumerate and cite} 
+	good example is the Pico project \cite{pico}, with the main goal of
+	completely removing passwords. An other example of similar protocols
+	are tiQR \cite{tiqr} and snap2pass \cite{snap2pass}.
 	However, we have yet to see the adoption of one of these methods
 	by a popular authentication provider to lead its use across the
 	Internet. 
 
-	In this paper, we analyse the SQRL protocol \todo{cite}. This protocol
+	In this paper, we analyse the SQRL protocol \cite{sqrl}. This protocol
 	has drawed attention since its publication due to its simplicity. However,
-	simple does not mean secure. In (?\todo{cite relay attack paper}) the authors
+	simple does not mean secure. In \cite{relayattack} the authors
 	describe how to use relay attacks to break through the SQRL authentication
 	protocol. This attack can also be used with other authentication
-	protocols that use images for authentication, such as Pico, ? and ?. \todo{enumerate}.
-	Our goal is to use ProVerif, a tool for formal verification of cryptgraphic
-	protocols, to demonstrate the SQRL protocol's vulnerability to relay attacks.
-	Additionally, we use the same tool to verify a modification to this protocol 
-	(proposed by the same author that describe the attack). \todo{conclude something}
+	protocols that use images for authentication, such as Pico, tiQR and snap2pass
+	as previously mentioned.
+	Our goal is to use Spass, a tool for formal verification of cryptgraphic
+	protocols, to demonstrate these protocols' vulnerability to relay attacks.
 
 \section{Secure Quick Reliable Login Protocol}
 
@@ -78,7 +79,8 @@
 	Creation} and \emph{Authentication} phases.
 
 	The \emph{Setup} phase is a standart cryptographic setup procedure where the
-	SQRL App generates a random 256 bit master secret (MS). This secret is stored offline and 
+	SQRL App generates a random 256 bit master secret (MS). This secret is stored 
+	offline and 
 	is never to be shared. The following phases will always be derivated of this
 	secret, but never give it away. The \emph{Identity Creation} phase and the
 	\emph{Authentication} phase are operations that should be syncronized with
@@ -119,15 +121,14 @@
 	the protocol phases should be secured with integrity, privacy and authenticity
 	to prevent attacks such as the \emph{Man-in-the-middle} attack. A more extensive 
 	analysis on the security of SQRL, can be foundin (REF) as well as in discussion 
-	groups in the \emph{stack exchange} website.
-	\todo[inline]{Update references}
+	groups in the \emph{stack exchange} website \cite{sqrlreport}.
 
-\section{Similar Protocols}
-\todo[inline]{OpenID, Pico, TiQR}
+%\section{Similar Protocols}
+%\todo[inline]{OpenID, Pico, TiQR}
 
 \section[Relay attack to visual code authentication schemes]{Relay attack to visual code
 authentication \\ schemes}
-	The relay attack, as describe by the authors in (REF), is not a specific
+	The relay attack, as describe by the authors in \cite{relayattack}, is not a specific
 	attack to the SQRL protocol, but rather to a family of protocol based on
 	visual codes. Let us consider then a generic protocol that is compatible
 	with the SQRL Authentication phase and other protocols in the same family.
@@ -281,5 +282,7 @@ authentication \\ schemes}
 \section{Final Remarks}
 \todo[inline]{Some conclusion}
 
+\bibliographystyle{abbrv}
+\bibliography{ref.bib}
 
 \end{document}
