@@ -5,6 +5,8 @@
 \usepackage{mathtools}
 \usepackage{tikz}
 \usepackage{rotating}
+\usepackage{url}
+
 \usetikzlibrary{matrix,shapes,arrows,positioning,chains, calc}
  
 \title{Analysys of SQRL Authentication Protocol using proverif/spass/whatever}
@@ -186,7 +188,7 @@ authentication \\ schemes}
 
 \section{Spass implementation}
 \subsection{Overview of protocol verification with Spass}
-	As shown in \todo[inline]{Towards an Automatic Analysis of Security Protocols in First-Order Logic}, 
+	As shown in \cite{analysis}, 
 	protocols can be interpreted using first-order logic. In this case, every message in the protocol
 	is translated to logic assertions as well as the attacker capabilities, and then try to prove that the
 	attacker cannot achieve some state that would lead to a failure.
@@ -267,20 +269,29 @@ authentication \\ schemes}
 	\end{align*}
 
 
-	The mentioned logic was implemented and executed on Spass. We used it to prove \footnote{The proofs produced by Spass 
-	are not very human-readable. For showing the proofs, we used an open source tool available 
-	at https://github.com/dettonijr/spass-proof-parser} the following that the user can receive a cookie for 
-	himself $knows(user,cookie(user))$. We also user it to prove a less desirable feature: $knows(attacker,cookie(user))$.
+	The mentioned logic was implemented and executed on Spass. We used it to prove 
+	\footnote{The proofs produced by Spass are not very human-readable. We use an open 
+	source tool to digest the result. It is available at 
+	\url{https://github.com/dettonijr/spass-proof-parser}} 
+	the following that the user can receive a cookie for 
+	himself $knows(user,cookie(user))$. We also user it to prove a less desirable 
+	feature: $knows(attacker,cookie(user))$.
 
-\section{Future Works}
-	The experiments results in this work are not original, since the attack
-	has been published and the authors are splicitly mentioned in our work.
-	However, inspired by this, we can build a tool using spass/proverif to
-	help protocol developers to detect the relay attack without too much
-	effort.
 
 \section{Final Remarks}
-\todo[inline]{Some conclusion}
+	Our experiment's result demonstrate that the relay attack can be detected
+	with the help of automated theorem provers. 
+
+	\todo[inline]{Some conclusion}
+
+
+\section{Future Works}
+	
+	Inspired by our results, we can now build a tool using spass to
+	help protocol developers to detect the relay attack without too much
+	effort. In addition, the same analysis can be done to detect the relay
+	attack in new authentication protocols or variations to come, such as 
+	the one in Figure \ref{fig:proposal}.
 
 \bibliographystyle{abbrv}
 \bibliography{ref.bib}
